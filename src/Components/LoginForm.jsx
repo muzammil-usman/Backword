@@ -8,7 +8,8 @@ const LoginForm = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPopup, setShowPopup] = useState(false);
-  console.log("LoginForm rendered");
+  const [showPopup2, setShowPopup2] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   let valueTaker = (e) => {
     e.preventDefault();
@@ -20,14 +21,14 @@ const LoginForm = (props) => {
 
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in
         const user = userCredential.user;
-        console.log(user);
-        // ...
+        localStorage.setItem("user", user.uid);
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        setErrorMessage(errorMessage);
+        setShowPopup2(true);
       });
   };
 
@@ -86,6 +87,14 @@ const LoginForm = (props) => {
           message="Please fill all fields"
           onClose={() => {
             setShowPopup(false);
+          }}
+        />
+      )}
+      {showPopup2 && (
+        <Popup
+          message={errorMessage}
+          onClose={() => {
+            setShowPopup2(false);
           }}
         />
       )}

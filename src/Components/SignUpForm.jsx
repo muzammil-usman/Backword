@@ -1,9 +1,10 @@
 import { useState } from "react";
 import GoogleBtn from "./GoogleBtn";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 import Popup from "./PopUp";
 import { useNavigate } from "react-router-dom";
+import { doc, setDoc } from "firebase/firestore";
 
 const SignUpForm = (props) => {
   const [gender, selectedGender] = useState("");
@@ -12,6 +13,7 @@ const SignUpForm = (props) => {
   const [password, setPassword] = useState("");
   const [reWritePassword, setReWritePassword] = useState("");
   const [showPopup, setShowPopup] = useState(false);
+  const [showPopup2, setShowPopup2] = useState(false);
   const navigate = useNavigate();
 
   let signUpFormFiller = (e) => {
@@ -29,10 +31,17 @@ const SignUpForm = (props) => {
       return;
     }
 
+    if (reWritePassword !== password) {
+      setShowPopup2(true);
+      return;
+    }
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log("user andar aagaye hein");
+        console.log("user andar aagaye hein", user);
+        SignUpUser(user);
+        AddUserToFireBase(user);
+        localStorage.setItem("user", user.uid);
         navigate("/feed");
       })
       .catch((error) => {
@@ -44,6 +53,25 @@ const SignUpForm = (props) => {
   let handleChange = (f) => {
     selectedGender(f.target.value);
   };
+
+  let SignUpUser = async (user) => {
+    await setDoc(doc(db, "users", user?.uid), {
+      name: user?.displayName,
+      uid: user?.uid,
+      email: user?.email,
+      photoUrl: user?.photoURL,
+    });
+  };
+  let AddUserToFireBase = async (user) => {
+    await setDoc(doc(db, "users", user?.uid), {
+      name: name,
+      uid: user?.uid,
+      email: email,
+      photoUrl: "",
+      gender: gender,
+    });
+  };
+
   return (
     <>
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#000000c4] via-[#2686f7] to-[#fe5a59] px-4">
@@ -86,7 +114,7 @@ const SignUpForm = (props) => {
             onChange={(e) => setReWritePassword(e.target.value)}
           />
           <div className="radioChecker flex gap-5 w-full justify-center ">
-            <p>select your gender :</p>
+            <p>Select your gender :</p>
 
             <div className="male flex gap-2">
               <input
@@ -135,6 +163,14 @@ const SignUpForm = (props) => {
             message={"Please kindly fill all the fileds"}
             onClose={() => {
               setShowPopup(false);
+            }}
+          />
+        )}
+        {showPopup2 && (
+          <Popup
+            message={"yours password did not match to your confirm password"}
+            onClose={() => {
+              setShowPopup2(false);
             }}
           />
         )}

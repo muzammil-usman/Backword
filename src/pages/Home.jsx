@@ -18,7 +18,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="mainCont w-11/12 ">
+      <div className="mainCont w-screen md:w-11/12 ">
         {activeForm === null && (
           <Header login={loginClickChecker} sign={signUpClickChecker} />
         )}

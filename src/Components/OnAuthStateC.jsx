@@ -1,4 +1,4 @@
-import { useEffect, createContext, useState, useContext } from "react";
+import { useEffect, createContext, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
@@ -15,8 +15,6 @@ const OnAuthStateC = ({ children }) => {
       if (user) {
         setUser(user);
         const uid = user.uid;
-        console.log(uid);
-        console.log("user andar hey");
         navigate("/feed", { replace: true });
       } else {
         setUser(null);

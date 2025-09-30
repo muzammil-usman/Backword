@@ -1,10 +1,11 @@
-import SignOutBtn from "../Components/SignOutBtn";
+import FeedHeader from "../Components/FeedHeader";
 
 const Feed = () => {
   return (
     <>
-      <h1>Feed</h1>
-      <SignOutBtn />
+      <div className="mainCont w-11/12 ">
+        <FeedHeader />
+      </div>
     </>
   );
 };

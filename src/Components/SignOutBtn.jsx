@@ -1,10 +1,13 @@
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
 
 const SignOutBtn = () => {
   let signOuter = () => {
     signOut(auth)
       .then(() => {
+        localStorage.removeItem("user");
         console.log("user bahar aagaya");
       })
       .catch((error) => {
@@ -14,7 +17,10 @@ const SignOutBtn = () => {
 
   return (
     <>
-      <button onClick={signOuter}>Sign Out</button>
+      <div onClick={signOuter}>
+        <FontAwesomeIcon icon={faPowerOff} />
+        <p>Sign Out</p>
+      </div>
     </>
   );
 };

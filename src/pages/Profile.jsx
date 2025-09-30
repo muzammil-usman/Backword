@@ -1,13 +1,11 @@
-import React from "react";
 import { useParams } from "react-router-dom";
+import ProfileHeader from "../Components/ProfileHeader";
 
 const Profile = () => {
   const { username } = useParams();
-  const params = useParams();
   return (
     <>
-      <h1>{username} ki profile</h1>
-      {console.log(params)}
+      <ProfileHeader />
     </>
   );
 };
