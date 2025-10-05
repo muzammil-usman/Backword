@@ -15,8 +15,6 @@ const GoogleBtn = () => {
         const token = credential.accessToken;
         const user = result.user;
         SignUpUser(user);
-        localStorage.setItem("user", user.uid);
-
         console.log(user);
       })
       .catch((error) => {
@@ -33,6 +31,7 @@ const GoogleBtn = () => {
       uid: user?.uid,
       email: user?.email,
       photoUrl: user?.photoURL,
+      joinTime: Date.now(),
     });
   };
 
@@ -40,8 +39,8 @@ const GoogleBtn = () => {
     <div
       onClick={GoogleSignIn}
       className="
-        flex items-center justify-center md:w-10/12
-        sm:w-52 h-10 sm:h-12 
+        flex items-center justify-center w-10/12
+       h-12 
         bg-red-500 text-white font-medium gap-2.5 rounded-lg shadow-md
         transition-all duration-300 ease-in-out 
         hover:bg-red-600 hover:scale-105 hover:shadow-lg

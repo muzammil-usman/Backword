@@ -1,8 +1,6 @@
 import { memo } from "react";
 
 const Popup = ({ message, onClose }) => {
-  console.log("popup component");
-
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-[#000000c4] via-[#2686f7] to-[#fe5a59] bg-opacity-40 z-50">
       <div className="bg-white p-6 rounded-2xl shadow-xl text-center w-72 animate-scaleIn">

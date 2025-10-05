@@ -7,6 +7,7 @@ export const UserStatusContext = createContext();
 
 const OnAuthStateC = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [userUid, setUserUid] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -15,6 +16,7 @@ const OnAuthStateC = ({ children }) => {
       if (user) {
         setUser(user);
         const uid = user.uid;
+        setUserUid(uid);
         navigate("/feed", { replace: true });
       } else {
         setUser(null);
@@ -27,7 +29,7 @@ const OnAuthStateC = ({ children }) => {
   }, []);
 
   return (
-    <UserStatusContext.Provider value={{ user }}>
+    <UserStatusContext.Provider value={{ user, userUid }}>
       <>{!loading && children}</>
     </UserStatusContext.Provider>
   );

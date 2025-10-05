@@ -14,6 +14,10 @@ const SignUpForm = (props) => {
   const [reWritePassword, setReWritePassword] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [showPopup2, setShowPopup2] = useState(false);
+  const [showPopup3, setShowPopup3] = useState(false);
+  const [showPopup4, setShowPopup4] = useState(false);
+  const [showPopup5, setShowPopup5] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   let signUpFormFiller = (e) => {
@@ -35,18 +39,31 @@ const SignUpForm = (props) => {
       setShowPopup2(true);
       return;
     }
+
+    if (name < 4) {
+      setShowPopup4(true);
+      return;
+    }
+    if (/^[A-Za-z\s]+$/.test(name)) {
+      console.log("name theek hey");
+    } else {
+      setShowPopup5(true);
+      return;
+    }
+
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         console.log("user andar aagaye hein", user);
         SignUpUser(user);
         AddUserToFireBase(user);
-        localStorage.setItem("user", user.uid);
         navigate("/feed");
       })
       .catch((error) => {
+        setShowPopup3(true);
         const errorCode = error.code;
         const errorMessage = error.message;
+        setErrorMessage(errorMessage);
       });
   };
 
@@ -54,14 +71,6 @@ const SignUpForm = (props) => {
     selectedGender(f.target.value);
   };
 
-  let SignUpUser = async (user) => {
-    await setDoc(doc(db, "users", user?.uid), {
-      name: user?.displayName,
-      uid: user?.uid,
-      email: user?.email,
-      photoUrl: user?.photoURL,
-    });
-  };
   let AddUserToFireBase = async (user) => {
     await setDoc(doc(db, "users", user?.uid), {
       name: name,
@@ -69,15 +78,20 @@ const SignUpForm = (props) => {
       email: email,
       photoUrl: "",
       gender: gender,
+      joinTime: Date.now(),
     });
   };
 
   return (
     <>
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#000000c4] via-[#2686f7] to-[#fe5a59] px-4">
+      <div
+        className="flex items-center justify-center min-h-screen 
+                 bg-gradient-to-br from-[#000000c4] via-[#2686f7] to-[#fe5a59] px-4
+                 max-[375px]:bg-white max-[375px]:px-0"
+      >
         <form
           onSubmit={signUpFormFiller}
-          className=" bg-white h-160 relative sm:p-10 rounded-2xl shadow-2xl w-full max-w-md transform transition-all duration-500 flex flex-col gap-5 items-center justify-center "
+          className=" bg-white h-140 md:h-152 relative sm:p-10 rounded-2xl shadow-2xl w-full max-w-md transform transition-all duration-500 flex flex-col gap-5 items-center justify-center "
         >
           <button
             className="absolute top-3 right-3 px-3 py-1 bg-red-500 text-white rounded hover:cursor-pointer"
@@ -99,7 +113,7 @@ const SignUpForm = (props) => {
             type="text"
             placeholder="Enter your name"
             className="w-11/12 h-12 border pl-3 border-gray-300 rounded-l focus:outline-none focus:ring-2 focus:ring-[#2686f7] transition"
-            onChange={(e) => setName(e.target.value.trim())}
+            onChange={(e) => setName(e.target.value)}
           />
           <input
             type="password"
@@ -142,7 +156,7 @@ const SignUpForm = (props) => {
           </div>
           <button
             type="submit"
-            className="w-10/12 h-12 bg-[#2686f7] text-white font-semibold rounded-xl shadow-md transition transform hover:translate-y-[-2px] hover:bg-[#109e5a]"
+            className="w-10/12 h-12 bg-[#2686f7] hover:cursor-pointer text-white font-semibold rounded-xl shadow-md transition transform hover:translate-y-[-2px] hover:bg-[#109e5a]"
           >
             Sign Up
           </button>
@@ -171,6 +185,30 @@ const SignUpForm = (props) => {
             message={"yours password did not match to your confirm password"}
             onClose={() => {
               setShowPopup2(false);
+            }}
+          />
+        )}
+        {showPopup3 && (
+          <Popup
+            message={errorMessage}
+            onClose={() => {
+              setShowPopup3(false);
+            }}
+          />
+        )}
+        {showPopup4 && (
+          <Popup
+            message={"Name should be greater than 4 alphabets"}
+            onClose={() => {
+              setShowPopup4(false);
+            }}
+          />
+        )}
+        {showPopup5 && (
+          <Popup
+            message={"Number or special character are not allowed in name"}
+            onClose={() => {
+              setShowPopup5(false);
             }}
           />
         )}

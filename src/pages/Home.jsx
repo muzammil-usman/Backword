@@ -18,7 +18,13 @@ const Home = () => {
 
   return (
     <>
-      <div className="mainCont w-screen md:w-11/12 ">
+      <div
+        className={`${
+          activeForm === "login" || activeForm === "signup"
+            ? "w-screen"
+            : "w-11/12"
+        } mx-auto`}
+      >
         {activeForm === null && (
           <Header login={loginClickChecker} sign={signUpClickChecker} />
         )}

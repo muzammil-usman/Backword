@@ -22,7 +22,6 @@ const LoginForm = (props) => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        localStorage.setItem("user", user.uid);
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -33,10 +32,18 @@ const LoginForm = (props) => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#000000c4] via-[#2686f7] to-[#fe5a59] px-4">
+    <div
+      className="flex items-center justify-center min-h-screen 
+                 bg-gradient-to-br from-[#000000c4] via-[#2686f7] to-[#fe5a59] px-4
+                 max-[375px]:bg-white max-[375px]:px-0"
+    >
       <form
         onSubmit={valueTaker}
-        className="bg-white relative h-114 sm:p-10 rounded-2xl shadow-2xl w-full max-w-md transform transition-all duration-500 hover:scale-[1.02] flex flex-col gap-5 items-center justify-center"
+        className="bg-white relative sm:p-10 rounded-2xl shadow-2xl 
+             w-full max-w-md h-114 
+             transform transition-all duration-500 hover:scale-[1.02] 
+             flex flex-col gap-5 items-center justify-center
+             max-[375px]:w-screen max-[375px]:h-screen max-[375px]:rounded-none"
       >
         <button
           className="absolute top-3 right-3 px-3 py-1 bg-red-500 text-white rounded hover:cursor-pointer"

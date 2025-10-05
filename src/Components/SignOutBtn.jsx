@@ -17,7 +17,10 @@ const SignOutBtn = () => {
 
   return (
     <>
-      <div onClick={signOuter}>
+      <div
+        onClick={signOuter}
+        className="flex justify-center items-center gap-2 hover:cursor-pointer"
+      >
         <FontAwesomeIcon icon={faPowerOff} />
         <p>Sign Out</p>
       </div>
