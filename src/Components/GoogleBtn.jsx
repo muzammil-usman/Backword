@@ -15,7 +15,7 @@ const GoogleBtn = () => {
         const token = credential.accessToken;
         const user = result.user;
         SignUpUser(user);
-        console.log(user);
+        console.log(user.gender);
       })
       .catch((error) => {
         const errorCode = error.code;

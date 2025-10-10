@@ -13,6 +13,7 @@ const EditNameModal = (prop) => {
   const [name, setUpdateName] = useState("");
   const [loading, setLoading] = useState(true);
   const userBio = doc(db, "users", userUid);
+  const [time, setTime] = useState("");
 
   let UpdateName = async () => {
     const nameRegex = /^[A-Za-z\s]+$/;
@@ -30,7 +31,11 @@ const EditNameModal = (prop) => {
 
   return (
     <>
-      <GetDataFromFireStore item={setUser} setLoading={setLoading} />
+      <GetDataFromFireStore
+        item={setUser}
+        setLoading={setLoading}
+        time={setTime}
+      />
 
       {loading ? (
         <Loader />

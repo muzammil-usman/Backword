@@ -55,7 +55,6 @@ const SignUpForm = (props) => {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log("user andar aagaye hein", user);
-        SignUpUser(user);
         AddUserToFireBase(user);
         navigate("/feed");
       })

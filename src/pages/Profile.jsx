@@ -3,6 +3,7 @@ import ProfileHeader from "../Components/ProfileHeader";
 import UserInfo from "../Components/UserInfo";
 import { useState } from "react";
 import EditNameModal from "../Components/EditNameModal";
+import UserBio from "../Components/UserBio";
 
 const Profile = () => {
   const { username } = useParams();
@@ -17,9 +18,14 @@ const Profile = () => {
 
   return (
     <>
-      <div className={`${modal ? "w-screen" : "w-11/12"} mx-auto`}>
+      <div
+        className={`${
+          modal ? "w-screen" : "w-11/12 flex gap-10 flex-col"
+        } mx-auto`}
+      >
         {!modal && <ProfileHeader />}
         {!modal && <UserInfo status={ModalStatusChanger} />}
+        <div className="flex ">{!modal && <UserBio />}</div>
         {modal && <EditNameModal close={ModalStatusChanger2} />}
       </div>
     </>
